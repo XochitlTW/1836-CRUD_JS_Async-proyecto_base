@@ -35,7 +35,31 @@ const table = document.querySelector("[data-table]");
 
 //CRUD = Create, Read, Upload, Delate
 //Metodos HTTP = POST, GET, PUT/PATCH, DELETE
-const listaCliente = () =>
+
+//Fetch API, deriba de una funcion que puedes crear de tu navegador, el Fetch necesita una url y un metodo(por defecto toma "GET"), esto para poder regresarnos un "promise"
+
+const listaCliente = () => fetch("http://localhost:3000/perfil").then((respuesta)=> respuesta.json());
+
+//la forma de arriba es lo mismo que la de abajo, solo que quita mucho ás espacio del código.
+/*const listaClientes = () =>
+{   //Abre una conección a la URL, generando una promesa.
+    return fetch("http://localhost:3000/perfil").then(respuesta =>
+    {//Cuando se completa la promesa se resive aquí y se transforma en un formato .json, así podemos obtener el acceso a "data"
+        return respuesta.json();
+    });
+}*/
+
+
+listaCliente().then((data) =>
+{
+    data.forEach(perfil => 
+        {
+            const nuevalinea = crearNuevaLinea(perfil.nombre, perfil.email);
+            table.appendChild(nuevalinea);
+        }
+    );
+}).catch((error) => alert ("Ocurrio un error"));
+/*const listaCliente = () =>
 { //La constante  "promise" es igual a lo que nos regresa la instancia "promise" marcandola como una funsión asincrona(el programa no espera por ella y sigue ejecutando nuestro codigo)
     const promise = new Promise((resolve,reject) =>
     {//Generamos el XMLHttp para poder tener la conección con el BackEnd
@@ -58,17 +82,9 @@ const listaCliente = () =>
     });
 
     return promise; //cuando lo que obtenemos de "response" sale de nuestra "promise" se convierte en nuestra "data"
-}
+}*/
 
-listaCliente().then((data) =>
-{
-    data.forEach(perfil => 
-        {
-            const nuevalinea = crearNuevaLinea(perfil.nombre, perfil.email);
-            table.appendChild(nuevalinea);
-        }
-    );
-}).catch((error) => alert ("Ocurrio un error"));
+
 
 
 /* "GET"(metodo) obtiene de "ur" (servidor) datos que con "SENT" (metodo) se envia la petición, así JS obtendrá la informaciópn en vez del navegador
