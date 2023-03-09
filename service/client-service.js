@@ -26,18 +26,53 @@ const crearNuevaLinea = (nombre, email) =>
     return linea;
 }; 
 
-//para enviar y mostrar lo que queremos obtener para el servidor usarmos esta funcion donde localizamos donde estara nuestra tabla y ponemos la data del html para poder pasar la informacion de arriba.
+//para enviar y mostrar lo que queremos obtener para el servidor usarmos esta funcion donde localizamos donde estara nuestra tabla y ponemos la "data" del html para poder pasar la informacion de arriba.
 const table = document.querySelector("[data-table]");
 
-const http = new XMLHttpRequest();
+//const http = new XMLHttpRequest();
 
 //Abrir HTTP (metodo, ur)
 
 //CRUD = Create, Read, Upload, Delate
 //Metodos HTTP = POST, GET, PUT/PATCH, DELETE
+const listaCliente = () =>
+{ //La constante  "promise" es igual a lo que nos regresa la instancia "promise" marcandola como una funsión asincrona(el programa no espera por ella y sigue ejecutando nuestro codigo)
+    const promise = new Promise((resolve,reject) =>
+    {//Generamos el XMLHttp para poder tener la conección con el BackEnd
+        const http = new XMLHttpRequest();     
+        http.open("GET", "http://localhost:3000/perfil");
+
+        http.send();
+        http.onload = () =>
+        {//JSON.parse convierte la respuesta del http en objeto, con el "IF" podemos identificar el estatus y saber si hay algun error podrémos saberlo aunque no sabremos cual sería, si no hay problema nos regresara el objeto de la constante "response"
+            const response = JSON.parse(http.response);
+            if(http.status >= 400)
+            {
+                reject(response);
+            }
+            else
+            {
+                resolve(response)
+            }
+        }
+    });
+
+    return promise; //cuando lo que obtenemos de "response" sale de nuestra "promise" se convierte en nuestra "data"
+}
+
+listaCliente().then((data) =>
+{
+    data.forEach(perfil => 
+        {
+            const nuevalinea = crearNuevaLinea(perfil.nombre, perfil.email);
+            table.appendChild(nuevalinea);
+        }
+    );
+}).catch((error) => alert ("Ocurrio un error"));
 
 
-// "GET"(metodo) obtiene de "ur" (servidor) datos que con "SENT" (metodo) se envia la petición, así JS obtendrá la informaciópn en vez del navegador 
+/* "GET"(metodo) obtiene de "ur" (servidor) datos que con "SENT" (metodo) se envia la petición, así JS obtendrá la informaciópn en vez del navegador
+ 
 http.open("GET", "http://localhost:3000/perfil");
 
 http.send();
@@ -61,5 +96,7 @@ http.onload = () =>
     {
         const data2 = JSON.parse(http2.response);
     } 
-}
+} */
+
+
 
