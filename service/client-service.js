@@ -1,6 +1,13 @@
+const listaCliente = () => fetch("http://localhost:3000/perfil").then((respuesta)=> respuesta.json());
+
+export const clientService =
+{
+    listaCliente
+}
+
 //Backticks para perservar nuestro codigo y, con "${}" podemos remarcar qué partes de este necesitamos que neustra funcion extraiga
 
-const crearNuevaLinea = (nombre, email) =>
+/*const crearNuevaLinea = (nombre, email) =>
 {
     const linea = document.createElement("tr")
     const contenido =
@@ -24,10 +31,10 @@ const crearNuevaLinea = (nombre, email) =>
         </td>`
     linea.innerHTML = contenido;
     return linea;
-}; 
+}; */
 
 //para enviar y mostrar lo que queremos obtener para el servidor usarmos esta funcion donde localizamos donde estara nuestra tabla y ponemos la "data" del html para poder pasar la informacion de arriba.
-const table = document.querySelector("[data-table]");
+//const table = document.querySelector("[data-table]");
 
 //const http = new XMLHttpRequest();
 
@@ -38,7 +45,7 @@ const table = document.querySelector("[data-table]");
 
 //Fetch API, deriba de una funcion que puedes crear de tu navegador, el Fetch necesita una url y un metodo(por defecto toma "GET"), esto para poder regresarnos un "promise"
 
-const listaCliente = () => fetch("http://localhost:3000/perfil").then((respuesta)=> respuesta.json());
+//const listaCliente = () => fetch("http://localhost:3000/perfil").then((respuesta)=> respuesta.json());
 
 //la forma de arriba es lo mismo que la de abajo, solo que quita mucho ás espacio del código.
 /*const listaClientes = () =>
@@ -50,7 +57,7 @@ const listaCliente = () => fetch("http://localhost:3000/perfil").then((respuesta
 }*/
 
 
-listaCliente().then((data) =>
+/*listaCliente().then((data) =>
 {
     data.forEach(perfil => 
         {
@@ -58,7 +65,7 @@ listaCliente().then((data) =>
             table.appendChild(nuevalinea);
         }
     );
-}).catch((error) => alert ("Ocurrio un error"));
+}).catch((error) => alert ("Ocurrio un error"));*/
 /*const listaCliente = () =>
 { //La constante  "promise" es igual a lo que nos regresa la instancia "promise" marcandola como una funsión asincrona(el programa no espera por ella y sigue ejecutando nuestro codigo)
     const promise = new Promise((resolve,reject) =>
