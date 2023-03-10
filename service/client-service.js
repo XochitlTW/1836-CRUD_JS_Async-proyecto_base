@@ -1,9 +1,35 @@
 const listaCliente = () => fetch("http://localhost:3000/perfil").then((respuesta)=> respuesta.json());
 
+//Esta funcion recibira los datos y los enviara a nuestro servidor.
+const crearCliente = (nombre, email) =>
+{ //fetch recive primero la dirección http, seguido del metodo el cual usara para enviar la información (Agregamos el "retur" para que pueda compartir la información con el "export")
+    return fetch ("http://localhost:3000/perfil", {
+        method: "POST",
+        // Eeste es el incio de la petición (Una peticion se utiliza para interacutarcon los datos del servidor)
+        headers:
+        {   //"Content-Type" convierte los datos en un objeto adaptado para que JSON pueda leerlo y, posteriormente, peuda ser leido. "application/json" la función predeterminada para este proceso
+            "Content-Type": "application/json"
+        },
+        //Con JSON.stringify convierte los objetos "nombre" e "email" a texto. El "ID" lo estamos fabricando con una libreria (en este caso es uuid la cual ya referenciamos en nuestro HTML, esto NO en el HEAD si no antes de que termine nuestro BODY como un <script>, este es sacado de internet y se puede buscar en google)la ucual ponemos como función.
+        body: JSON.stringify({nombre,email, id: uuid.v4()})
+    }
+    )
+}
+
+const eliminarCliente = (id) =>
+{   //en esta funcion de JSON no estamos haciendo una petición de datos, al contrario, estamos pidiendo una acción, por eso tenemos que identificar la acción y lo que se requiere, en este ejemplo se está pidiendo un "DELETE" para eliminar datos del server, no lo estámos reciviendo ni enviando, pero debemos espesificar que datos se deben eliminar, en este caso se usan las backticks para poder agregar el identificador que se busca eliminar como es el "ID" 
+    return fetch (`http://localhost:3000/perfil/${id}`, 
+    {
+        method: "DELETE"
+    })
+}
+
 export const clientService =
 {
-    listaCliente
-}
+    listaCliente,
+    crearCliente,
+    eliminarCliente
+};
 
 //Backticks para perservar nuestro codigo y, con "${}" podemos remarcar qué partes de este necesitamos que neustra funcion extraiga
 
